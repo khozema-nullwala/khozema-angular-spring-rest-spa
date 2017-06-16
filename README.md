@@ -1,1 +1,1 @@
-# khozema-angular-spring-rest-spa
+# Angular Single Page Application Using Spring REST
