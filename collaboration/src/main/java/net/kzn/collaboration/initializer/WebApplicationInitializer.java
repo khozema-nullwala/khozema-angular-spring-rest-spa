@@ -2,6 +2,7 @@ package net.kzn.collaboration.initializer;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import net.kzn.collaboration.config.HibernateConfig;
 import net.kzn.collaboration.config.MvcConfig;
 import net.kzn.collaboration.config.RootConfig;
 
@@ -10,7 +11,7 @@ public class WebApplicationInitializer extends AbstractAnnotationConfigDispatche
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
 		// TODO Auto-generated method stub
-		return new Class [] {RootConfig.class};
+		return new Class [] {RootConfig.class, HibernateConfig.class};
 	}
 
 	@Override
