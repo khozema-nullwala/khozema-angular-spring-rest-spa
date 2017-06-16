@@ -1,0 +1,32 @@
+html {
+	height:100%;
+}
+
+body {
+  padding-top: 60px;
+  height: 100%;
+}
+
+/*
+	custom styling
+*/
+
+.wrapper {	
+	min-height:100%;
+	position: relative;
+}
+
+
+.content {
+	padding-bottom: 30px; /*height of the footer*/	
+}
+
+
+.footer {
+	
+	position:absolute;
+	bottom:10px;
+	height: 30px;
+	
+}
+
