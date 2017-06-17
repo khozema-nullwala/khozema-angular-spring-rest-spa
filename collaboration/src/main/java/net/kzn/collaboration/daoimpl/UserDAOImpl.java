@@ -16,7 +16,7 @@ public class UserDAOImpl implements UserDAO {
 	
 	/* for registering a new user */
 	@Override
-	public boolean register(User user) {
+	public boolean add(User user) {
 		
 		try {
 			
@@ -40,9 +40,21 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public boolean validate(String username, String password) {
-		
-		return false;
+	public User validate(User user) {
+		// first fetch the user by username
+		User temp = this.getByParam("username", user.getUsername());;
+		if(temp!=null) {
+			// if the user is found check for password
+			if(temp.getPassword().equals(user.getPassword())) {
+				return temp;
+			}
+			else {
+				return null;
+			}
+		}
+		else {
+			return null;
+		}		
 	}
 
 	@Override

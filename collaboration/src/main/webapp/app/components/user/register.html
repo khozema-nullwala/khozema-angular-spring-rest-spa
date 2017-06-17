@@ -1,5 +1,14 @@
 <div class="container">
 
+	<div class="row" ng-if="userCtrl.message">
+		<div class="col-md-offset-3 col-md-6">
+			<div class="alert alert-info">
+				<h4 class="text-center">{{userCtrl.errorMessage}}</h4>
+			</div>
+		</div>
+	</div>
+
+
 	<div class="row">
 	
 		
@@ -14,16 +23,17 @@
 					<form name="register"  
 							class="form-horizontal" 
 							novalidate="novalidate"
-							ng-submit="!userCtrl.formError && userCtrl.register()">
+							ng-submit="register.$valid && userCtrl.register()">
 					
 					
 						<div class="form-group">
 						
 							<label class="col-md-4">Select Username</label>
 							<div class="col-md-8">
-								<input type="text" name="username" required class="form-control" ng-model="userCtrl.user.username" ng-pattern="userCtrl.usernamePattern" ng-blur="register.username.$valid && userCtrl.checkUsername(register.username)"/>
-								<span class="help-block" ng-if="(register.username.$error.pattern && register.username.$touched) || (register.username.$invalid && register.username.$dirty && !userCtrl.usernameExist)">Username must be of atleast 8 characters with first letter as alphabet. You can use underscore!</span>
-								<span class="help-block" ng-if="userCtrl.usernameExist">Username is already taken!</span>
+								<input type="text" name="username" required class="form-control" ng-model="userCtrl.user.username" ng-pattern="userCtrl.usernamePattern" username ng-model-options="{updateOn: 'blur'}"/>
+								<span class="help-block" ng-show="(register.username.$error.pattern && register.username.$touched)">Username must be of atleast 8 characters with first letter as alphabet. You can use underscore!</span>
+								<span class="help-block" ng-show="register.username.$pending.username">Checking if username is available... </span>
+								<span class="help-block" ng-show="register.username.$error.username">Username is already taken!</span>
 							</div>
 						
 						</div>	
@@ -33,7 +43,7 @@
 							<label class="col-md-4">Enter First Name</label>
 							<div class="col-md-8">
 								<input type="text" name="firstName" required class="form-control" ng-minlength="userCtrl.textLength" ng-model="userCtrl.user.firstName"/>
-								<span class="help-block" ng-if="(register.firstName.$error.minlength && register.firstName.$touched) || (register.firstName.$invalid && register.firstName.$dirty)">Please enter first name!</span>
+								<span class="help-block" ng-if="(register.firstName.$error.minlength && register.firstName.$touched)">Please enter first name!</span>
 							</div>
 						
 						</div>						
@@ -43,7 +53,7 @@
 							<label class="col-md-4">Enter Last Name</label>
 							<div class="col-md-8">
 								<input type="text" name="lastName" required class="form-control" ng-minlength="userCtrl.textLength" ng-model="userCtrl.user.lastName"/>
-								<span class="help-block" ng-if="(register.lastName.$error.minlength && register.lastName.$touched) || (register.lastName.$invalid && register.lastName.$dirty)">Please enter last name!</span>
+								<span class="help-block" ng-if="(register.lastName.$error.minlength && register.lastName.$touched)">Please enter last name!</span>
 							</div>
 						
 						</div>						
@@ -52,9 +62,10 @@
 						
 							<label class="col-md-4">Enter Email Address</label>
 							<div class="col-md-8">
-								<input type="email" name="email" required class="form-control" ng-model="userCtrl.user.email" ng-pattern="userCtrl.emailPattern" ng-blur="register.username.$valid && userCtrl.checkEmail(register.email)"/>
-								<span class="help-block" ng-if="(register.email.$error.pattern && register.email.$dirty) || (register.email.$invalid && register.email.$dirty && !userCtrl.emailExist)">Please enter proper email address!</span>
-								<span class="help-block" ng-if="userCtrl.emailExist">Email address is already present!</span>
+								<input type="email" name="email" required class="form-control" ng-model="userCtrl.user.email" ng-pattern="userCtrl.emailPattern" email ng-model-options="{updateOn: 'blur'}"/>
+								<span class="help-block" ng-show="(register.email.$error.pattern && register.email.$touched)">Please enter proper email address!</span>
+								<span class="help-block" ng-show="register.email.$pending.email">Checking if email is taken... </span>
+								<span class="help-block" ng-show="register.email.$error.email">Email address is already taken!</span>
 							</div>
 						
 						</div>						
@@ -63,7 +74,7 @@
 							<label class="col-md-4">Enter Contact Number</label>
 							<div class="col-md-8">
 								<input type="text" name="contactNumber" required class="form-control" ng-model="userCtrl.user.contactNumber" ng-pattern="userCtrl.contactNumberPattern" maxlength="10"/>
-								<span class="help-block" ng-if="(register.email.$error.pattern && register.email.$dirty) || (register.email.$invalid && register.email.$dirty)">Please enter proper contact number!</span>
+								<span class="help-block" ng-if="(register.contactNumber.$error.pattern && register.contactNumber.$touched)">Please enter proper contact number!</span>
 							</div>
 						
 						</div>											
@@ -72,7 +83,7 @@
 							<label class="col-md-4">Choose Password</label>
 							<div class="col-md-8">
 								<input type="password" name="password" required class="form-control" ng-model="userCtrl.user.password" ng-pattern="userCtrl.passwordPattern"/>
-								<span class="help-block" ng-if="(register.password.$error.pattern && register.password.$touched)  || (register.password.$invalid && register.password.$dirty)">Password should be atleast 8 characters with one capital, one small, one digit and one special character!</span>
+								<span class="help-block" ng-if="(register.password.$error.pattern && register.password.$touched)">Password should be atleast 8 characters with one capital, one small, one digit and one special character!</span>
 							</div>
 						
 						</div>						
@@ -81,7 +92,7 @@
 							<label class="col-md-4">Confirm Password</label>
 							<div class="col-md-8">
 								<input type="password" name="confirmPassword" required class="form-control" ng-model="userCtrl.confirmPassword"/>
-								<span class="help-block" ng-if="(userCtrl.confirmPassword != userCtrl.user.password) && register.confirmPassword.$dirty">Confirm password does not match!</span>
+								<span class="help-block" ng-if="(userCtrl.confirmPassword != userCtrl.user.password) && register.confirmPassword.$touched">Confirm password does not match!</span>
 							</div>
 						
 						</div>						

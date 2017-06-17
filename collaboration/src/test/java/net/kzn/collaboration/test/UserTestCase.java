@@ -37,7 +37,7 @@ public class UserTestCase {
 		user.setUsername("kozi4987");
 		user.setContactNumber("9819000000");
 	
-		assertEquals("Failed to store user object!",true, userDAO.register(user));
+		assertEquals("Failed to store user object!",true, userDAO.add(user));
 		
 	}
 	

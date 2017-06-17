@@ -1,8 +1,12 @@
 <div class="container">
 
-      <div class="starter-template">
+	  <div class="alert alert-info" ng-if="userCtrl.flash">
+	  	<h4 class="text-center">{{userCtrl.flash}}</h4>
+	  </div>
+
+      <div>
         <h1>Angular Single Page Application</h1>
-        <p class="lead">{{userCtrl.message}}</p>
+        <p class="lead">{{userCtrl.greeting}}</p>
       </div>
 
 </div>

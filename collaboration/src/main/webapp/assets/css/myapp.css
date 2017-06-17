@@ -3,7 +3,7 @@ html {
 }
 
 body {
-  padding-top: 60px;
+  padding-top: 70px;
   height: 100%;
 }
 
@@ -34,10 +34,6 @@ body {
 
 .help-block {
 	color: #ff0000;
-}
-
-.ng-dirty.ng-invalid {
-	border-color: #ff0000;
 }
 
 .ng-valid {

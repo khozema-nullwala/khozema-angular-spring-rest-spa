@@ -1,30 +1,30 @@
 // list the routes here for user to navigate through the website.
 window.routes =
 {
-    "/home": {
+	"/home": {
         templateUrl: 'app/components/user/home.html', 
         controller: 'UserController', 
         controllerAs: 'userCtrl',
-        requireLogin: true,
+        requireLogin: true
     },
     "/login": {
         templateUrl: 'app/components/user/login.html', 
         controller: 'UserController', 
         controllerAs: 'userCtrl',
-        requireLogin: false,
+        requireLogin: false
     },
     "/register": {
         templateUrl: 'app/components/user/register.html', 
         controller: 'UserController', 
         controllerAs: 'userCtrl',
-        requireLogin: false,
-    }    
+        requireLogin: false
+    }
 };
 
 /**
  * Loading all the routes here
  */
-app.config(['$routeProvider', '$locationProvider', '$httpProvider',function($routeProvider,$locationProvider,$httpProvider){
+app.config(function($routeProvider){
 
     // fill up the path in the $routeProvider the objects created before
     for(var path in window.routes) {
@@ -33,9 +33,10 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider',function($rou
 
     $routeProvider.otherwise({redirectTo: '/home'});
 
-}]);
+});
 
 // The REST endpoint to get the data 
+// you can change the name of the domain here
 app.constant('REST_URI', 'http://localhost:8080/collaboration/api/');
 
 // When the app runs check whether the user navigating through the website is
@@ -43,29 +44,35 @@ app.constant('REST_URI', 'http://localhost:8080/collaboration/api/');
 app.run(function($rootScope,$location,UserService) {
 
     $rootScope.$on('$locationChangeStart', function(event, next, current) {    
-    	if(next == current) {
+        // before location changes using the user service check for the user details            
+    	// get the user details from the cookie!
+    	$rootScope.user = UserService.loadUserFromCookie();
+    	// set the authenticate flag as true
+        $rootScope.authenticated = UserService.getUserIsAuthenticated();
+    	// for same page refresh
+        if(next === current) {
     		return;
     	}
-    	// iterate through all the routes
-        for(var i in window.routes) {
-            // if routes is present make sure the user is authenticated 
-            // before login using the user service            
-            if(next.indexOf(i)!=-1) {                
-                // if trying to access page which requires login and is not logged in                                                 
-                $rootScope.user = UserService.loadUserFromCookie();
-                $rootScope.authenticated = UserService.getUserIsAuthenticated();
-                
-                if(window.routes[i].requireLogin && !$rootScope.authenticated) {                                   
+        
+        // once authenticated and tries to go back to login
+        // or register page then redirect it to the home page
+        if($rootScope.authenticated) {        	
+        	if(next.indexOf('/login') > -1 || 
+        			next.indexOf('/register') > -1) {
+        		$location.path('/home');
+        	}
+        }
+        debugger;
+        // iterate through all the routes
+        for(var path in window.routes) {            
+        	if(next.indexOf(path)!=-1) {                
+                // if trying to access page which requires login and is not logged in                                                                 
+                if(window.routes[path].requireLogin && !$rootScope.authenticated) {                                   
                     $location.path('/login');
                 }
             }
-        }        
+        }
     });
-
-
-    $rootScope.logout = function() {
-
-    };
 
 });
  
