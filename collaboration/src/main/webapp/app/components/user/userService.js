@@ -48,8 +48,23 @@ userModule.service('UserService',['$http','$q','$cookies','REST_URI',function($h
     	
     }
     
-    this.checkUserName = function() {
-    	
+    
+    // to check the uniqueness of username
+    this.checkParam = function(param,value) {
+        var deferred = $q.defer();
+        // post to /api/check/{{param}}
+        $http.post(REST_URI + 'check/' + param , value)
+        .then(
+            function(response){                
+                deferred.resolve(response);
+            },
+            function(error){                
+                deferred.resolve(error);
+            }
+        );
+
+        return deferred.promise;
     }
+
 
 }]);

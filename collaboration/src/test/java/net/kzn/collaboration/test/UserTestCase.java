@@ -13,7 +13,6 @@ import net.kzn.collaboration.dto.User;
 public class UserTestCase {
 
 	
-	
 	private static AnnotationConfigApplicationContext context = null;
 	private static UserDAO userDAO = null;
 	public User user = null;

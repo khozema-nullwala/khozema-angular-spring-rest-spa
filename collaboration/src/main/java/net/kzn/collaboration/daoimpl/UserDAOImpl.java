@@ -45,4 +45,23 @@ public class UserDAOImpl implements UserDAO {
 		return false;
 	}
 
+	@Override
+	public User getByParam(String param, String value) {
+		
+		String query = "FROM User WHERE " + param + "= :param";
+		
+		try {	
+			return sessionFactory.getCurrentSession()
+						.createQuery(query,User.class)
+						.setParameter("param", value)
+						.getSingleResult();
+									
+		}
+		catch(Exception ex) {
+			System.out.println(ex.getMessage());
+			return null;
+		}
+		
+	}
+
 }

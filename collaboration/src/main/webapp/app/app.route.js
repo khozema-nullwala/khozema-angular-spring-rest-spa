@@ -36,7 +36,7 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider',function($rou
 }]);
 
 // The REST endpoint to get the data 
-app.constant('REST_URI', 'http://localhost:8080/collaboration/');
+app.constant('REST_URI', 'http://localhost:8080/collaboration/api/');
 
 // When the app runs check whether the user navigating through the website is
 // authenticated and authorized to view the exisiting page
