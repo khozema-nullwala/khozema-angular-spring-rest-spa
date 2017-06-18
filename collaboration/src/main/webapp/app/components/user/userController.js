@@ -1,6 +1,6 @@
 userModule.controller('UserController', function(UserService, $rootScope ,$location, $timeout){
 	
-		var me = this;
+		var me = this; 
 		
 		// for storing the user
 		me.user = {};
