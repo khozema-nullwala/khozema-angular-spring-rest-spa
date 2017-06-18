@@ -16,14 +16,16 @@ public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@Column(name = "first_name")
 	private String firstName;
 	@Column(name = "last_name")
 	private String lastName;
+	@Column(unique = true)
 	private String username;
 	private String password;
+	@Column(unique = true)
 	private String email;
 	@Column(name = "contact_number")
 	private String contactNumber;

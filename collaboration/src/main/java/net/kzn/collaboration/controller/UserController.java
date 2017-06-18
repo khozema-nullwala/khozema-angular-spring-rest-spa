@@ -9,22 +9,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.kzn.collaboration.dao.UserDAO;
 import net.kzn.collaboration.dto.User;
 import net.kzn.collaboration.model.DomainResponseModel;
 import net.kzn.collaboration.model.UserModel;
+import net.kzn.collaboration.service.UserService;
 
 @RestController
 @RequestMapping("/api")
 public class UserController {
 
 	@Autowired
-	private UserDAO userDAO;
+	private UserService userService;
 	
 	@PostMapping(value = "/check/{param}")
 	public ResponseEntity<?> checkUsernameAvailability(@PathVariable String param, @RequestBody String value) {
 		
-		User user = userDAO.getByParam(param, value);
+		User user = userService.getByParam(param, value);
 		
 		if(user == null) {
 			return new ResponseEntity<>(HttpStatus.OK);
@@ -39,7 +39,7 @@ public class UserController {
 	public ResponseEntity<?> addUser(@RequestBody User user) {
 		DomainResponseModel model = null;
 		
-		if(userDAO.add(user)) {
+		if(userService.add(user)) {
 			model = new DomainResponseModel(201, "Registration Successful. Login Again!");
 			return new ResponseEntity<DomainResponseModel>(model,HttpStatus.OK);
 		}
@@ -53,23 +53,13 @@ public class UserController {
 	@PostMapping(value = "/user/validate")
 	public ResponseEntity<?> validateUser(@RequestBody User user) {
 		
-		User temp = userDAO.validate(user);
+		DomainResponseModel model = userService.validate(user);
 		
-		if(temp!=null) {
-			// validation is successful
-			// pass the minimal detail of the user
-			UserModel model = new UserModel();
-			model.setFullName(temp.getFirstName() + " " + temp.getLastName());
-			model.setId(temp.getId());
-			model.setUsername(temp.getUsername());
-			model.setCode(201);
-			model.setMessage("Login Successful!");
-			return new ResponseEntity<UserModel>(model, HttpStatus.OK);
+		if(model instanceof UserModel){
+			UserModel userModel = (UserModel) model;
+			return new ResponseEntity<UserModel>(userModel, HttpStatus.OK);			
 		}
 		else {
-			// validation failed means the user is not found with the given credentials
-			DomainResponseModel model = new DomainResponseModel(401, "Invalid Username and Password!");
-			
 			return new ResponseEntity<DomainResponseModel>(model, HttpStatus.NOT_ACCEPTABLE);
 		}
 						

@@ -30,7 +30,7 @@
 						
 							<label class="col-md-4">Select Username</label>
 							<div class="col-md-8">
-								<input type="text" name="username" required class="form-control" ng-model="userCtrl.user.username" ng-pattern="userCtrl.usernamePattern" username ng-model-options="{updateOn: 'blur'}"/>
+								<input type="text" name="username" required class="form-control" ng-model="userCtrl.user.username" ng-pattern="userCtrl.usernamePattern" username ng-model-options="{updateOn: 'blur'}" maxlength="50"/>
 								<span class="help-block" ng-show="(register.username.$error.pattern && register.username.$touched)">Username must be of atleast 8 characters with first letter as alphabet. You can use underscore!</span>
 								<span class="help-block" ng-show="register.username.$pending.username">Checking if username is available... </span>
 								<span class="help-block" ng-show="register.username.$error.username">Username is already taken!</span>
@@ -42,7 +42,7 @@
 						
 							<label class="col-md-4">Enter First Name</label>
 							<div class="col-md-8">
-								<input type="text" name="firstName" required class="form-control" ng-minlength="userCtrl.textLength" ng-model="userCtrl.user.firstName"/>
+								<input type="text" name="firstName" required class="form-control" ng-minlength="userCtrl.textLength" ng-model="userCtrl.user.firstName" maxlength="50"/>
 								<span class="help-block" ng-if="(register.firstName.$error.minlength && register.firstName.$touched)">Please enter first name!</span>
 							</div>
 						
@@ -52,7 +52,7 @@
 						
 							<label class="col-md-4">Enter Last Name</label>
 							<div class="col-md-8">
-								<input type="text" name="lastName" required class="form-control" ng-minlength="userCtrl.textLength" ng-model="userCtrl.user.lastName"/>
+								<input type="text" name="lastName" required class="form-control" ng-minlength="userCtrl.textLength" ng-model="userCtrl.user.lastName" maxlength="50"/>
 								<span class="help-block" ng-if="(register.lastName.$error.minlength && register.lastName.$touched)">Please enter last name!</span>
 							</div>
 						
@@ -62,7 +62,7 @@
 						
 							<label class="col-md-4">Enter Email Address</label>
 							<div class="col-md-8">
-								<input type="email" name="email" required class="form-control" ng-model="userCtrl.user.email" ng-pattern="userCtrl.emailPattern" email ng-model-options="{updateOn: 'blur'}"/>
+								<input type="email" name="email" required class="form-control" ng-model="userCtrl.user.email" ng-pattern="userCtrl.emailPattern" email ng-model-options="{updateOn: 'blur'}" maxlength="50"/>
 								<span class="help-block" ng-show="(register.email.$error.pattern && register.email.$touched)">Please enter proper email address!</span>
 								<span class="help-block" ng-show="register.email.$pending.email">Checking if email is taken... </span>
 								<span class="help-block" ng-show="register.email.$error.email">Email address is already taken!</span>
@@ -82,7 +82,7 @@
 						
 							<label class="col-md-4">Choose Password</label>
 							<div class="col-md-8">
-								<input type="password" name="password" required class="form-control" ng-model="userCtrl.user.password" ng-pattern="userCtrl.passwordPattern"/>
+								<input type="password" name="password" required class="form-control" ng-model="userCtrl.user.password" ng-pattern="userCtrl.passwordPattern" maxlength="50"/>
 								<span class="help-block" ng-if="(register.password.$error.pattern && register.password.$touched)">Password should be atleast 8 characters with one capital, one small, one digit and one special character!</span>
 							</div>
 						
@@ -91,7 +91,7 @@
 						
 							<label class="col-md-4">Confirm Password</label>
 							<div class="col-md-8">
-								<input type="password" name="confirmPassword" required class="form-control" ng-model="userCtrl.confirmPassword"/>
+								<input type="password" name="confirmPassword" required class="form-control" ng-model="userCtrl.confirmPassword" maxlength="50"/>
 								<span class="help-block" ng-if="(userCtrl.confirmPassword != userCtrl.user.password) && register.confirmPassword.$touched">Confirm password does not match!</span>
 							</div>
 						

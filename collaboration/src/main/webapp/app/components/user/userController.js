@@ -6,7 +6,7 @@ userModule.controller('UserController', function(UserService, $rootScope ,$locat
 		me.user = {};
 		
 		// for client side validation
-		// first line of defence another one at server side
+		// first line of defense another one at server side
 		// to be added shortly		
 		me.usernamePattern =  /^[A-Za-z]{1}[A-Za-z0-9_]{7,}$/;
 		me.emailPattern =  /^([\w-\.]+)@((?:[\w]+\.)+)([a-zA-Z]{2,4})$/;
@@ -91,9 +91,9 @@ userModule.controller('UserController', function(UserService, $rootScope ,$locat
 	    me.dismissAlert = function() {
 	    	me.errorMessage = '';
 	    	me.flash = '';
-	    }
-	    
+	    }	    
 	    $timeout(me.dismissAlert, 3000);
+		// -------------------------------------------------------
 		
 });
 
