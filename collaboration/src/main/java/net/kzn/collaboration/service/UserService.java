@@ -1,13 +1,14 @@
 package net.kzn.collaboration.service;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import net.kzn.collaboration.dao.UserDAO;
 import net.kzn.collaboration.dto.User;
+import net.kzn.collaboration.exception.FieldPolicyException;
 import net.kzn.collaboration.model.DomainResponseModel;
 import net.kzn.collaboration.model.UserModel;
+import net.kzn.collaboration.validator.UserFieldValidator;
 
 @Service("userService")
 public class UserService {
@@ -15,30 +16,48 @@ public class UserService {
 	@Autowired
 	private UserDAO userDAO;
 	
-	public boolean add(User user) {
+	
+	@Autowired
+	private UserFieldValidator userFieldValidator;
+	
+	public DomainResponseModel add(User user) {
+		
+		DomainResponseModel model = new DomainResponseModel();
 		
 		try {
 			
 			if(user == null) {
 				throw new NullPointerException("user object is null!");
 			}
-
-			userDAO.add(user);
+			else {
+				// second level of defense to check username and password
+				if(!userFieldValidator.validateUsername(user.getUsername())) {
+					throw new FieldPolicyException("Username does not matches policy!");
+				}
+				if(!userFieldValidator.validatePassword(user.getPassword())) {
+					throw new FieldPolicyException("Password does not matches policy!");
+				}
+			}
 			
-			return true;
+			userDAO.add(user);
+			model.setCode(201);
+			model.setMessage("Registration Successful! Login Again");
+			
 		}
 		catch(NullPointerException ex) {
-			System.out.println(ex.getMessage());
-			return false;
+			model.setCode(499);
+			model.setMessage("Failed to register the user cause no user is passed!");			
 		}
-		catch(ConstraintViolationException ex) {
-			System.out.println(ex.getMessage());
-			return false;			
+		catch(FieldPolicyException ex) {
+			model.setCode(498);
+			model.setMessage(ex.getMessage());			
 		}
 		catch(Exception ex) {
-			System.out.println(ex.getMessage());
-			return false;
+			model.setCode(497);
+			model.setMessage(ex.getMessage());
 		}
+
+		return model;
 				
 	}
 	

@@ -23,6 +23,7 @@ public class UserTestCase {
 	private static AnnotationConfigApplicationContext context = null;
 	private static UserService userService = null;
 	public User user = null;
+	DomainResponseModel model = null;
 	
 	/* Initialize the class */
 	@BeforeClass
@@ -39,16 +40,18 @@ public class UserTestCase {
 		String random = UUID.randomUUID().toString().substring(26).toUpperCase();
 		user.setFirstName("Khozema");
 		user.setLastName("Nullwala");
-		user.setEmail(random +"@gmail.com");
+		user.setEmail("KZN" + random +"@gmail.com");
 		user.setPassword("Niit@2017");
-		user.setUsername(random);
+		user.setUsername("KZN" + random);
 		user.setContactNumber("9819000000");
 			
 		// testing for user object
-		assertTrue("Failed to store user object!",userService.add(user));
+		model = userService.add(user);
+		assertEquals("Failed to store user object!",201,model.getCode());
 		
 		// testing for null object
-		assertFalse("Testing will null object failed!", userService.add(null));		
+		model = userService.add(null);
+		assertEquals("Testing with null object failed!", 499, model.getCode());		
 	
 	}
 	
@@ -63,7 +66,8 @@ public class UserTestCase {
 		user.setUsername("kozi2017");
 		user.setContactNumber("9819000000");
 		// should not allow to store duplicate object
-		assertFalse ("Duplicate Object is getting Stored!",userService.add(user));
+		model = userService.add(user);
+		assertEquals ("Duplicate Object is getting Stored!",497, model.getCode());
 	}
 	
 	
@@ -97,7 +101,6 @@ public class UserTestCase {
 	public void testValdiate() {
 		
 		user = new User();
-		DomainResponseModel model = null;
 		
 		// with valid credentials
 		user.setUsername("kozi2017");

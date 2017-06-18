@@ -11,7 +11,7 @@ userModule.controller('UserController', function(UserService, $rootScope ,$locat
 		me.usernamePattern =  /^[A-Za-z]{1}[A-Za-z0-9_]{7,}$/;
 		me.emailPattern =  /^([\w-\.]+)@((?:[\w]+\.)+)([a-zA-Z]{2,4})$/;
 		me.contactNumberPattern =  /^\d{10}$/;
-		me.passwordPattern =  /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[A-Z])(?=.*[a-z])[a-zA-Z0-9!@#$%^&*]{8,}$/;
+		me.passwordPattern =  /^(?=.*[0-9])(?=.*[!@#$%^&*_])(?=.*[A-Z])(?=.*[a-z])[a-zA-Z0-9!@#$%^&*_]{8,}$/;
 		me.textLength = 2;
 		me.confirmPassword = '';
 		
@@ -27,6 +27,7 @@ userModule.controller('UserController', function(UserService, $rootScope ,$locat
 		// for registering a new user
 		//-------------------------------------------------------
 		me.register = function() {
+			
 			UserService.register(me.user)
 				.then(
 						function(response) {

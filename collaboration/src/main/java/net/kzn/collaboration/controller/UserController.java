@@ -37,14 +37,12 @@ public class UserController {
 
 	@PostMapping(value = "/user")
 	public ResponseEntity<?> addUser(@RequestBody User user) {
-		DomainResponseModel model = null;
+		DomainResponseModel model = userService.add(user);
 		
-		if(userService.add(user)) {
-			model = new DomainResponseModel(201, "Registration Successful. Login Again!");
+		if(model.getCode() == 201) {
 			return new ResponseEntity<DomainResponseModel>(model,HttpStatus.OK);
 		}
 		else {
-			model = new DomainResponseModel(501, "Something messed up while registering!");
 			return new ResponseEntity<DomainResponseModel>(model,HttpStatus.EXPECTATION_FAILED);
 		}
 						
